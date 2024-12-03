@@ -1,0 +1,379 @@
+---
+title: "Obesidade Sarcopênica"
+author: "Magnun Rochel"
+date: "2024-11-30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+#pacotes
+library(tidyverse)
+library(GGally)
+```
+
+
+```{r dados, include=FALSE}
+sarco = read.csv("~/Documents/Lab1/sarcopenia.csv")
+
+str(sarco)
+#plot(sarco$Peso, sarco$Altura_cm)
+```
+
+## Inspeção: histogramas e medidas de resumo
+
+ São variáveis quantiativas as seguintes:
+ 
+ 
+- **Variáveis**
+  - Idade  
+  - Peso   
+  - Altura_cm     
+  - IMC         
+  - GC_BIA_percent         
+  -  Peso_gordura_kg      
+  -  Peso_magro_kg        
+  - Água_L                    
+  - Biorresistencia_ohms     
+  - Reatancia              
+  -  GC_US_percent         
+  -  Triceps                    
+  -  Abdominal                  
+  - Suprailiaca                  
+  - Coxa                       
+  -  Peitoral                 
+  - SM                        
+  -  SMI_percent           
+  - SMI                      
+  - SM_H2              
+  - Forca_Prensao_Palmar_ASHT
+  - Força_Prensao_PalmarDominante
+  -  teste_Sit_and_Stand_30s 
+  - teste_Sit_and_Stand_15s  
+  -  SARC_F 
+
+
+## Relações
+
+```{r}
+sarco_subset =  sarco %>% 
+  select(c("Idade", "Peso", "Altura_cm", "IMC", "GC_BIA_percent",
+               "Peso_gordura_kg", "Peso_magro_kg")) %>% 
+  drop_na()
+  
+  
+  
+ggpairs(data = sarco_subset,
+        title = "Pairs Plot for Selected Variables",
+        aes(alpha = 0.7)) +
+  theme_minimal()
+```
+
+
+```{r}
+sarco_subset =  sarco %>% 
+  select(c("Peso", "Água_L", "Biorresistencia_ohms", 
+                  "Reatancia", "GC_US_percent", "Triceps", 
+                   "Abdominal", "Suprailiaca",
+                  "Coxa",  "SM"
+           )) %>% 
+  drop_na()
+  
+  
+  
+ggpairs(data = sarco_subset,
+        title = "Pairs Plot for Selected Variables",
+        aes(alpha = 0.7)) +
+  theme_minimal()
+```
+
+
+```{r}
+sarco_subset =  sarco %>% 
+  select(c("Peso",  "SMI_percent","SMI", "SM_H2", "Forca_Prensao_Palmar_ASHT",   
+           "Força_Prensao_PalmarDominante", "teste_Sit_and_Stand_30s",
+           "teste_Sit_and_Stand_15s", "SARC_F" 
+           )) %>% 
+  drop_na()
+  
+  
+  
+ggpairs(data = sarco_subset,
+        title = "Pairs Plot for Selected Variables",
+        aes(alpha = 0.7)) +
+  theme_minimal()
+```
+
+```{r hist, echo=FALSE}
+par(mfrow=c(3,3))
+# Criando o histograma com intervalos de 10 em 10 no eixo Y e X
+hist(sarco$Idade,
+     main = "Idade",
+     xlab = "Idade",
+     ylab = "Frequência",
+     breaks = seq(20, 
+                  max(sarco$Idade, na.rm = TRUE), by = 10),
+     ylim = c(0, ceiling(max(table(cut(sarco$Idade, breaks = seq(0, max(sarco$Idade), 
+                                                                 by = 10))))/10)*10))
+
+
+hist(sarco$Peso,
+     main = "Peso",
+     xlab = "Peso",
+     ylab = "Frequência")
+
+
+hist(sarco$Altura_cm,
+     main = "Altura (em cm)",
+     xlab = "Altura",
+     ylab = "Frequência")
+
+# IMC
+hist(sarco$IMC,
+     main = "IMC",
+     xlab = "IMC",
+     ylab = "Frequência")
+
+# GC BIA
+hist(sarco$GC_BIA_percent,
+     main = "GC BIA (%)",
+     xlab = "GC BIA (%)",
+     ylab = "Frequência")
+
+# Peso Gordura
+hist(sarco$Peso_gordura_kg,
+     main = " Peso Gordura (Kg)",
+     xlab = "Peso Gordura",
+     ylab = "Frequência")
+
+# Peso Magro
+hist(sarco$Peso_magro_kg,
+     main = "Peso Magro (kg)",
+     xlab = "Peso Magro",
+     ylab = "Frequência")
+
+#Água_L  
+hist(sarco$Água_L,
+     main = "Água (L)",
+     xlab = "Água (L)",
+     ylab = "Frequência")
+
+
+#Biorresistencia_ohms     
+hist(sarco$Biorresistencia_ohms,
+     main = "Biorresistência (Ohms)",
+     xlab = "Biorresistência (Ohms)",
+     ylab = "Frequência")
+
+
+```
+
+```{r hist2, echo=FALSE}
+#Reatancia
+#GC_US_percent
+#Triceps
+#Abdominal
+#Suprailiaca
+#Coxa
+#Peitoral
+#SM
+#SMI_percent
+
+par(mfrow=c(3,3))
+#Reatância 
+hist(sarco$Reatancia,
+     main = "Reatância",
+     xlab = "Reatância",
+     ylab = "Frequência")
+
+# GC US
+hist(sarco$GC_US_percent,
+     main = "GC US (%)",
+     xlab = "GC US (%)",
+     ylab = "Frequência")
+
+#Triceps
+
+hist(sarco$GC_US_percent,
+     main = "GC US (%)",
+     xlab = "GC US (%)",
+     ylab = "Frequência")
+
+#Abdominal
+hist(sarco$Abdominal,
+     main = "Abdominal",
+     xlab = "Abdominal",
+     ylab = "Frequência")
+
+
+#Suprailiaca
+hist(sarco$Suprailiaca,
+     main = "Supraíliaca",
+     xlab = "Supraíliaca",
+     ylab = "Frequência")
+
+
+#Coxa
+hist(sarco$Coxa,
+     main = "Coxa",
+     xlab = "Coxa",
+     ylab = "Frequência")
+
+#Peitoral
+hist(sarco$Peitoral,
+     main = "Peitoral",
+     xlab = "Peitoral",
+     ylab = "Frequência")
+
+
+
+#SM
+hist(sarco$SM,
+     main = "SM",
+     xlab = "SM",
+     ylab = "Frequência")
+
+#SMI_percent
+hist(sarco$SMI_percent,
+     main = "SMI (%)",
+     xlab = "SMI (%)",
+     ylab = "Frequência")
+
+
+
+```
+
+
+# Tabelas de Estatística Descritiva
+
+```{r, tabela, echo=FALSE}
+
+resultado <- sarco %>%
+  select(Sexo2, Bariatrica, Peso) %>%  # Certifique-se de incluir Sexo e Bariatrica
+  group_by(Sexo2, Bariatrica) %>%      # Agrupar por Sexo e Bariatrica
+  summarise(
+    min = min(Peso, na.rm = TRUE),    # Mínimo de Peso
+    max = max(Peso, na.rm = TRUE),
+    media = mean(Peso),
+    dp = sd(Peso),
+    Q1 = quantile(Peso, 0.25),
+    Q3 = quantile(Peso, 0.75),
+    n = n(),
+    .groups = "keep"
+  )
+
+knitr::kable(resultado)
+```
+
+## Shapiro-Wilk para Normalidade
+```{r shapirowil, echo=FALSE}
+
+
+ 
+# Selecionar apenas as variáveis numéricas do data frame
+var_quant <- as.list(sarco %>% 
+                          select(where(is.numeric)))
+
+
+# Inicializar uma lista para armazenar os resultados
+shapiro_results = list()
+
+# Loop para realizar o teste de Shapiro-Wilk em cada item da lista
+for (var_name in names(var_quant)) {
+  # Verifica se há dados suficientes (>3 observações não ausentes)
+  if (length(na.omit(var_quant[[var_name]])) > 3) {
+    shapiro_test <- shapiro.test(var_quant[[var_name]])
+    shapiro_results[[var_name]] <- list(statistic = shapiro_test$statistic,
+                                        p.value = shapiro_test$p.value)
+  } else {
+    shapiro_results[[var_name]] <- "Insufficient data"
+  }
+}
+
+# Exibir os resultados
+#shapiro_results
+
+# Transformar os resultados em um data frame
+shapiro_results_df <- do.call(rbind, lapply(shapiro_results, function(x) {
+  if (is.list(x)) data.frame(statistic = x$statistic, p.value = round(x$p.value, 4)) else data.frame(statistic = NA, p.value = NA)
+}))
+
+# Adicionar os nomes das variáveis
+shapiro_results_df <- cbind(Variável = names(shapiro_results), shapiro_results_df)
+
+# Exibir o data frame
+#shapiro_results_df
+shapiro_results_df$Normal = ifelse(shapiro_results_df$p.value < 0.05, "Não Normal", "Normal")
+  
+
+knitr::kable(shapiro_results_df)
+```
+
+
+## Ajuste
+
+
+```{r ajuste}
+#length(sarco$Peitoral)
+# Sem incluir Peitoral por causa das poucas observações
+
+sarco.glm = glm(as.factor(Bariatrica) ~ Sexo + Idade + Peso + Altura_cm + IMC +
+                  GC_BIA_percent +
+                  Peso_gordura_kg + Peso_magro_kg + Água_L +
+                  + Biorresistencia_ohms +
+                  Reatancia + GC_US_percent + Triceps + 
+                   + Abdominal + Suprailiaca + 
+                  Coxa + 
+                  SM + SMI_percent + SMI + SM_H2 + 
+                  Forca_Prensao_Palmar_ASHT + 
+                  Força_Prensao_PalmarDominante + 
+                  teste_Sit_and_Stand_30s + 
+                  teste_Sit_and_Stand_15s + 
+                  SARC_F,
+                 family = binomial(link = "logit"), 
+                 data = sarco)
+
+summary(sarco.glm)
+```
+
+
+```{r}
+
+sarco.glm2 = glm(log(Peso) ~ Sexo
+                 + Bariatrica + Idade +
+                 Altura_cm +  IMC + GC_BIA_percent + Peso_gordura_kg +
+                   Peso_magro_kg + Água_L + +Biorresistencia_ohms +
+                   Reatancia + GC_US_percent +  Triceps + +Abdominal + 
+                   Suprailiaca + Coxa + SM + SMI_percent +  SMI + SM_H2 + 
+                   Forca_Prensao_Palmar_ASHT + 
+                   Força_Prensao_PalmarDominante + 
+                   teste_Sit_and_Stand_30s + 
+                   teste_Sit_and_Stand_15s + SARC_F,
+                 
+                 family = Gamma(link = "log"),
+                 data = sarco)
+
+summary(sarco.glm2)
+
+```
+
+```{r}
+plot(sarco.glm2)
+```
+
+
+##  Ajustes Reduzidos
+
+
+```{r}
+sarco.glm.red = glm(Peso ~ Sexo
+                 + Bariatrica + Idade +
+                 Altura_cm +  IMC,
+                 family = Gamma(link = "log"),
+                 data = sarco)
+
+summary(sarco.glm.red)
+```
+
+
+
+
